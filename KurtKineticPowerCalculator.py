@@ -15,7 +15,7 @@ class KurtKineticPowerCalculator(AbstractPowerCalculator):
     # This is a 3rd order polynomial, where
     #  Power = A * v ^ 3 + B * v ^ 2 + C * v + d
     # where v is speed in miles/hour and constants A, B, C & D are as defined above.
-    def power_from_speed(self, revs_per_sec):
+    def power_from_speed(self, revs_per_sec,previous_revs_per_sec):
         if self._DEBUG: print("power_from_speed")
 
         miles_per_rev = self.wheel_circumference / 1609.34

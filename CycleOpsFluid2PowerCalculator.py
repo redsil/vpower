@@ -34,7 +34,7 @@ class CycleOpsFluid2PowerCalculator(AbstractPowerCalculator):
     # power values
     yp = [0.0, 28.0, 58.0, 92.0, 132.0, 179.0, 237.0, 307.0, 391.0, 492.0, 611.0]
 
-    def power_from_speed(self, revs_per_sec):
+    def power_from_speed(self, revs_per_sec,previous_revs_per_sec):
         kms_per_rev = self.wheel_circumference / 1000.0
         speed = revs_per_sec * 3600 * kms_per_rev
         power = int(interp(self.xp, self.yp, speed))

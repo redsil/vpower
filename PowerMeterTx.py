@@ -45,13 +45,13 @@ class PowerMeterTx(object):
 
     # Power was updated, so send out an ANT+ message
     def update(self, power):
-        if VPOWER_DEBUG: print('PowerMeterTx: update called with power ', power)
+#        if VPOWER_DEBUG: print('PowerMeterTx: update called with power ', power)
         self.powerData.eventCount = (self.powerData.eventCount + 1) & 0xff
-        if VPOWER_DEBUG: print('eventCount ', self.powerData.eventCount)
+ #       if VPOWER_DEBUG: print('eventCount ', self.powerData.eventCount)
         self.powerData.cumulativePower = (self.powerData.cumulativePower + int(power)) & 0xffff
-        if VPOWER_DEBUG: print('cumulativePower ', self.powerData.cumulativePower)
+  #      if VPOWER_DEBUG: print('cumulativePower ', self.powerData.cumulativePower)
         self.powerData.instantaneousPower = int(power)
-        if VPOWER_DEBUG: print('instantaneousPower ', self.powerData.instantaneousPower)
+   #     if VPOWER_DEBUG: print('instantaneousPower ', self.powerData.instantaneousPower)
 
         payload = bytearray(b'\x10')  # standard power-only message
         payload.append(self.powerData.eventCount)
@@ -65,5 +65,5 @@ class PowerMeterTx(object):
         ant_msg = message.ChannelBroadcastDataMessage(self.channel.number, data=payload)
         sys.stdout.write('+')
         sys.stdout.flush()
-        if VPOWER_DEBUG: print('Write message to ANT stick on channel ' + repr(self.channel.number))
+#        if VPOWER_DEBUG: print('Write message to ANT stick on channel ' + repr(self.channel.number))
         self.antnode.send(ant_msg)

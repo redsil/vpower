@@ -14,6 +14,7 @@ class SpeedCadenceSensorRx(event.EventCallback):
         self.previousData = None
         self.revsPerSec = 0.0
         self.observer = None
+        self.previousRevsPerSec = 0.0
 
         # Get the channel
         self.channel = antnode.getFreeChannel()
@@ -31,10 +32,12 @@ class SpeedCadenceSensorRx(event.EventCallback):
         self.channel.period = period
         self.channel.frequency = 57
 
-    def set_revs_per_sec(self, rps):
-        self.revsPerSec = rps
+    def set_revs_per_sec(self, revs_delta,time_delta):
+        self.previousRevsPerSec = self.revsPerSec
+        self.revsPerSec = revs_delta/time_delta
         if self.observer:
-            self.observer.update(self.revsPerSec)
+            self.observer.update(self.revsPerSec,self.previousRevsPerSec,time_delta)
+
 
     def notify_change(self, observer):
         self.observer = observer
@@ -73,7 +76,7 @@ class SpeedCadenceSensorRx(event.EventCallback):
             message_data = SpeedCadenceData()
             dp.parse(msg.data, message_data)
 
-            if VPOWER_DEBUG: message_data.print_speed()
+#            if VPOWER_DEBUG: message_data.print_speed()
 
             if self.currentData is None:
                 self.previousData = self.currentData
@@ -93,8 +96,8 @@ class SpeedCadenceSensorRx(event.EventCallback):
                     if current_rev_count < self.previousData.speedRevCount:
                         current_rev_count += 65536
                     revs_diff = current_rev_count - self.previousData.speedRevCount
-                    self.set_revs_per_sec(revs_diff / time_diff)
-
+                    self.set_revs_per_sec(revs_diff,time_diff)
+                    
         elif isinstance(msg, message.ChannelStatusMessage):
             if msg.status == EVENT_CHANNEL_CLOSED:
                 # Channel closed, re-open

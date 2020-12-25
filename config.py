@@ -2,6 +2,7 @@ from configparser import ConfigParser
 
 import sys
 from ant.core import log
+from LemondRevolutionPowerCalculator import LemondRevolutionPowerCalculator
 from BtAtsPowerCalculator import BtAtsPowerCalculator
 from KurtKineticPowerCalculator import KurtKineticPowerCalculator
 from TacxBlueMotionPowerCalculator import TacxBlueMotionPowerCalculator

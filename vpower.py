@@ -20,15 +20,18 @@ try:
     devs = find(find_all=True)
     for dev in devs:
         if dev.idVendor == 0x0fcf and dev.idProduct in [0x1008, 0x1009]:
+            print "Found device with Vendor " + repr(dev.idVendor) + " and Product " + repr(dev.idProduct)
             break
     else:
         print("No ANT device found")
         exit()
-
-    stick = driver.USB2Driver(log=LOG, debug=DEBUG, idProduct=dev.idProduct)
+        
+    dev.reset()
+    stick = driver.USB2Driver(log=LOG, debug=False, idProduct=dev.idProduct)
     antnode = node.Node(stick)
     print("Starting ANT node")
     antnode.start()
+    print("Started")
     key = node.Network(NETKEY, 'N:ANT+')
     antnode.setNetworkKey(0, key)
 

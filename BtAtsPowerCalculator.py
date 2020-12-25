@@ -43,7 +43,7 @@ class BtAtsPowerCalculator(AbstractPowerCalculator):
     # This is a 3rd order polynomial, where
     #  Power = A * v ^ 3 + B * v ^ 2 + C * v + d
     # where v is speed in revs / sec and constants A, B, C & D are as defined above.
-    def power_from_speed(self, revs_per_sec):
+    def power_from_speed(self, revs_per_sec,previous_revs_per_sec):
         if self._DEBUG: print("power_from_speed")
 
         if self.dynamic_air_density is None:

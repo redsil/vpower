@@ -36,7 +36,7 @@ class TacxBlueMotionPowerCalculator(AbstractPowerCalculator):
     yp = [0.0, 33.0, 65.0, 100.0, 135.0, 175.0,
           217.0, 260.0, 308.0, 364.0, 424.0, 488.0, 560.0]
 
-    def power_from_speed(self, revs_per_sec):
+    def power_from_speed(self, revs_per_sec,previous_revs_per_sec):
         kms_per_rev = self.wheel_circumference / 1000.0
         speed = revs_per_sec * 3600 * kms_per_rev
         power = int(interp(self.xp, self.yp, speed))
